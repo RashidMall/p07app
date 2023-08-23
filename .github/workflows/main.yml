@@ -8,15 +8,11 @@ on:
 
 #A workflow job running sequentially
 jobs:
-  build:
+  test:
     #runs-on: defines The workflow runner
     runs-on: ubuntu-latest 
     #steps: defines a series of tasks executed by the Job
     steps:
-    - uses: actions/checkout@v2
-    - run: |   # To fetch all history for all tags and branches
-        git fetch --prune --unshallow  
-
     #Task for setting up Python 3.8 using actions/setup-python@v2 Github action
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
