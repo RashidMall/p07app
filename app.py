@@ -2,9 +2,6 @@ import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
 import re
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords as nltk_stopwords
-from nltk.stem import WordNetLemmatizer
 
 app = Flask(__name__)
 
@@ -369,88 +366,6 @@ def remove_numbers(text):
     """
     return "".join(i for i in text if not i.isdigit())
 
-def preprocess_text(text):
-    """
-    Preprocesses text data by performing cleaning, tokenization, stopword removal, and lemmatization.
-    """
-    # Clean the text
-    cleaned_text = clean_text(text)
-
-    # Tokenize the text
-    tokenized_text = word_tokenize(cleaned_text)
-
-    # Remove stopwords
-    stopwords_removed = remove_stopwords(tokenized_text)
-
-    # Lemmatize the text
-    lemmatized_text = lemmatize_text(stopwords_removed)
-
-    return lemmatized_text
-
-def remove_stopwords(tokenized_text):
-    """
-    Remove stopwords from a tokenized text.
-
-    Parameters:
-    -----------
-        - tokenized_text (pd.Series or list): Tokenized text data.
-
-    Returns:
-    --------
-        - pd.Series or list: Tokenized text with stopwords removed.
-
-    """
-    stopwords = nltk_stopwords.words('english')
-    stopwords_removed = [word for word in tokenized_text if word not in stopwords]
-    return stopwords_removed
-
-def lemmatize_text(text):
-	"""
-	Process the text by lemmatizing the words and removing stop words.
-
-	"""
-	# Lemmatize the words
-	lemmatized_text = lemmatize_word(text)
-
-	# Remove stop words
-	lemmatized_text = remove_stopwords(lemmatized_text)
-
-	# Join the lemmatized words back into sentences
-	lemmatized_text = ' '.join(lemmatized_text)
-
-	return lemmatized_text
-
-
-def lemmatize_word(text):
-	"""
-	Lemmatize the tokenized words.
-
-	Parameters:
-	-----------
-		- text (list): Tokenized words with / without POS tags.
-
-	Returns:
-	--------
-		- list: Lemmatized words.
-
-	"""
-	lemmatizer = WordNetLemmatizer()
-	lemmatized_words = []
-
-	if isinstance(text, list):  # If the input is a simple list
-		for word in text:
-			lemma = lemmatizer.lemmatize(word)
-			lemmatized_words.append(lemma)
-	elif isinstance(text, tuple):  # If the input is a list of tuples (word, tag)
-		for word, tag in text:
-			if tag:
-				lemma = lemmatizer.lemmatize(word, tag)
-			else:
-				lemma = lemmatizer.lemmatize(word)
-			lemmatized_words.append(lemma)
-
-	return lemmatized_words
-
 # Load the trained model and vectorizer using Pickle
 with open('lr_model.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
@@ -463,7 +378,7 @@ def index():
 	if request.method == 'POST':
 		tweet = request.form['tweet']
 		
-		preprocessed_tweet = preprocess_text(tweet)
+		preprocessed_tweet = clean_text(tweet)
 
 		# Vectorize the input tweet
 		tweet_vector = vectorizer.transform([preprocessed_tweet])
