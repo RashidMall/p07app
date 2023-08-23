@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentiment Analysis of Tweet</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Sentiment Analysis of Tweet</h1>
+        <form method="post">
+            <textarea name="tweet" placeholder="Enter your tweet here..." rows="4" cols="50"></textarea><br>
+            <button type="submit">Analyze Sentiment</button>
+        </form>
+        
+        <div class="result">
+            {% if sentiment is not none and tweet is not none %}
+                <h2>Result:</h2>
+                <p>Tweet: {{ tweet }}</p>
+                <p class="{% if sentiment == 'Positive' %}positive{% else %}negative{% endif %}">Sentiment: {{ sentiment }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
