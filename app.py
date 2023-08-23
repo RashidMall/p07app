@@ -6,90 +6,90 @@ import re
 app = Flask(__name__)
 
 EMOJIS = {
-    ">:-(": "Angry",
-    ">:)": "Smug",
-    ">:D": "Evil Grin",
-    ">;)": "Mischievous",
-    "<:-)": "Party",
-    ":')": "Tears of Joy",
-    ":|]": "Robotic",
-    ":-|]": "I'm a robot",
-    "=^.^=": "Cat",
-    ":^)": "Raised Eyebrow",
-    ":-E": "Bucktooth",
-    ":O)": "Clown",
-    "<:3": "Kitty",
-    "<3": "Love",
-    ":D": "Grin",
-    ":-D": "Grin",
-    ":O": "Surprised",
-    ":-O": "Surprised",
-    ":)": "Smile",
-    ":-)": "Smile",
-    ":]": "Happy",
-    ":-]": "Happy",
-    ":P": "Tongue",
-    ":-P": "Tongue",
-    ":|(": "Displeased",
-    ":(": "Sad",
-    ":-(": "Sad",
-    ":|": "Neutral",
-    ":-|": "Neutral",
-    ":/": "Confused",
-    ":-/": "Confused",
-    ";-)": "Wink",
-    ";)": "Wink",
-    ":*": "Kiss",
-    ":-*": "Kiss",
-    ":$": "Embarrassed",
-    ":-$": "Embarrassed",
-    ":Z": "Sleepy",
-    ":B": "Cool",
-    "B-)": "Cool"
+	">:-(": "Angry",
+	">:)": "Smug",
+	">:D": "Evil Grin",
+	">;)": "Mischievous",
+	"<:-)": "Party",
+	":')": "Tears of Joy",
+	":|]": "Robotic",
+	":-|]": "I'm a robot",
+	"=^.^=": "Cat",
+	":^)": "Raised Eyebrow",
+	":-E": "Bucktooth",
+	":O)": "Clown",
+	"<:3": "Kitty",
+	"<3": "Love",
+	":D": "Grin",
+	":-D": "Grin",
+	":O": "Surprised",
+	":-O": "Surprised",
+	":)": "Smile",
+	":-)": "Smile",
+	":]": "Happy",
+	":-]": "Happy",
+	":P": "Tongue",
+	":-P": "Tongue",
+	":|(": "Displeased",
+	":(": "Sad",
+	":-(": "Sad",
+	":|": "Neutral",
+	":-|": "Neutral",
+	":/": "Confused",
+	":-/": "Confused",
+	";-)": "Wink",
+	";)": "Wink",
+	":*": "Kiss",
+	":-*": "Kiss",
+	":$": "Embarrassed",
+	":-$": "Embarrassed",
+	":Z": "Sleepy",
+	":B": "Cool",
+	"B-)": "Cool"
 }
 
 def clean_text(text):
-    """
-    Clean the 'text'.
+	"""
+	Clean the 'text'.
 
-    """
-    # Replace emojis
-    clean_text = replace_emojis_with_descriptions(text, EMOJIS)    
-    
-    # Remove @USERNAME
-    clean_text = remove_twitter_usernames(clean_text)
-    
-    # Convert text to lowercase
-    clean_text = clean_text.lower()
-    
-    # Replace 3 or more consecutive letters by 2 letters
-    clean_text = replace_consecutive_letters(clean_text)
-    
-    # Expand the contraction
-    clean_text = expand_contractions(clean_text)
+	"""
+	# Replace emojis
+	clean_text = replace_emojis_with_descriptions(text, EMOJIS)    
 
-    # Remove URLs
-    clean_text = remove_URL(clean_text)
+	# Remove @USERNAME
+	clean_text = remove_twitter_usernames(clean_text)
 
-    # Remove HTML tags
-    clean_text = remove_html(clean_text)
+	# Convert text to lowercase
+	clean_text = clean_text.lower()
 
-    # Remove non-ASCII characters
-    clean_text = remove_non_ascii(clean_text)
+	# Replace 3 or more consecutive letters by 2 letters
+	clean_text = replace_consecutive_letters(clean_text)
 
-    # Remove special characters
-    clean_text = remove_special_characters(clean_text)
+	# Expand the contraction
+	clean_text = expand_contractions(clean_text)
 
-    # Remove punctuation
-    clean_text = remove_punct(clean_text)
-    
-    # Remove numbers
-    clean_text = remove_numbers(clean_text)
-    
-    # Remove short words with length less than 2
-    clean_text = remove_short_words(clean_text)
+	# Remove URLs
+	clean_text = remove_URL(clean_text)
 
-    return clean_text
+	# Remove HTML tags
+	clean_text = remove_html(clean_text)
+
+	# Remove non-ASCII characters
+	clean_text = remove_non_ascii(clean_text)
+
+	# Remove special characters
+	clean_text = remove_special_characters(clean_text)
+
+	# Remove punctuation
+	clean_text = remove_punct(clean_text)
+
+	# Remove numbers
+	clean_text = remove_numbers(clean_text)
+
+	# Remove short words with length less than 2
+	clean_text = remove_short_words(clean_text)
+
+	return clean_text
 
 def expand_contractions(text):
     """
